@@ -17,12 +17,12 @@ class _FloatingQuickAccessBarState extends State<FloatingQuickAccessBar> {
   List _isHovering = [false, false, false, false];
   List<Widget> rowElements = [];
 
-  List<String> items = ['Destination', 'Dates', 'People', 'Experience'];
+  List<String> items = ['Sobre', 'Projetos', 'Contato', 'Github'];
   List<IconData> icons = [
-    Icons.location_on,
-    Icons.date_range,
-    Icons.people,
-    Icons.wb_sunny
+    Icons.account_box,
+    Icons.account_tree,
+    Icons.mail,
+    Icons.gite
   ];
 
   List<Widget> generateRowElements() {
@@ -67,7 +67,7 @@ class _FloatingQuickAccessBarState extends State<FloatingQuickAccessBar> {
       heightFactor: 1,
       child: Padding(
         padding: EdgeInsets.only(
-          top: widget.screenSize.height * 0.20,
+          top: widget.screenSize.height * 0.40,
           left: ResponsiveWidget.isSmallScreen(context)
               ? widget.screenSize.width / 12
               : widget.screenSize.width / 5,

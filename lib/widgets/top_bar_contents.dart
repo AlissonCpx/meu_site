@@ -36,7 +36,7 @@ class _TopBarContentsState extends State<TopBarContents> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'ALISSON ANDRADE',
+                '',
                 style: GoogleFonts.montserrat(
                   color: Colors.blueGrey,
                   fontSize: 20,

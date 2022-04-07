@@ -1,4 +1,5 @@
 
+import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meu_site/widgets/bottom_bar.dart';
@@ -49,7 +50,7 @@ class _HomePageState extends State<HomePage> {
               backgroundColor: Colors.blueGrey[900]!.withOpacity(_opacity),
               elevation: 0,
               title: Text(
-                'ALISSON ANDRADE DEVELOPER',
+                '',
                 style: GoogleFonts.montserrat(
                   color: Colors.blueGrey,
                   fontSize: 20,
@@ -71,14 +72,76 @@ class _HomePageState extends State<HomePage> {
             Stack(
               children: [
                 Container(
-                  child: SizedBox(
-                    height: screenSize.height * 0.45,
-                    width: screenSize.width,
-                    child: Image.asset(
-                      'assets/images/program.jpeg',
-                      fit: BoxFit.cover,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                   end: Alignment.bottomCenter,
+                   colors: [
+                      Colors.blueGrey,
+                    Colors.white
+                  ],
+                  )
+                ),
+                 child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center( child: CircularProfileAvatar(
+                          '',
+                          elevation: 50,
+                          backgroundColor: Colors.black,
+                          borderColor: Colors.white,
+                          borderWidth: 3,
+                          child: Image.asset('assets/images/foto.jpg',
+                            fit: BoxFit.cover,
+                          ),
+                          radius: 180,
+                        )
+
+                        ),
+                       Flexible(child: Container(
+                            height: 50,
+                            child:Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Flexible(child: Text(
+                                'ALISSON ANDRADE',
+                                style: GoogleFonts.montserrat(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: 3,
+                                    shadows: [
+                                      Shadow(
+                                        blurRadius: 2,
+                                        color: Colors.blueGrey,
+                                        offset: Offset(5.0, 5.0),
+                                      ),
+                                    ]
+                                ),
+                              ),),
+                              Flexible(child: Text(
+                                'DESENVOLVEDOR',
+                                style: GoogleFonts.montserrat(
+                                  color: Colors.black54,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: 3,
+                                  shadows: [
+                                  Shadow(
+                                    blurRadius: 2,
+                                  color: Colors.blueGrey,
+                                  offset: Offset(5.0, 5.0),
+                                ),
+                                ]
+                                ),
+                              ),)
+                            ],
+                          ),)
+                        ),
+
+                      ],
                     ),
-                  ),
+
                 ),
                 Column(
                   children: [
@@ -97,7 +160,7 @@ class _HomePageState extends State<HomePage> {
                 )
               ],
             ),
-            // SizedBox(height: screenSize.height / 8),
+            //SizedBox(height: screenSize.height / 8),
             DestinationHeading(screenSize: screenSize),
             DestinationCarousel(),
             SizedBox(height: screenSize.height / 10),

@@ -1,10 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:meu_site/util/util_general.dart';
+import 'package:meu_site/util/util_msg_br.dart';
+import 'package:meu_site/util/util_msg_eg.dart';
+import 'package:meu_site/widgets/app_bar_button.dart';
 
 class TopBarContents extends StatefulWidget {
   final double opacity;
 
-  TopBarContents(this.opacity);
+  var english = true;
+
+  TopBarContents(this.opacity, this.english);
 
   @override
   _TopBarContentsState createState() => _TopBarContentsState();
@@ -35,125 +42,44 @@ class _TopBarContentsState extends State<TopBarContents> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                '',
-                style: GoogleFonts.montserrat(
-                  color: Colors.blueGrey,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400,
-                  letterSpacing: 3,
-                ),
-              ),
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SizedBox(width: screenSize.width / 8),
-                    InkWell(
-                      onHover: (value) {
-                        setState(() {
-                          value
-                              ? _isHovering[0] = true
-                              : _isHovering[0] = false;
-                        });
-                      },
-                      onTap: () {},
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'Sobre',
-                            style: TextStyle(
-                              color: _isHovering[0]
-                                  ? Colors.blue[200]
-                                  : Colors.white,
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Visibility(
-                            maintainAnimation: true,
-                            maintainState: true,
-                            maintainSize: true,
-                            visible: _isHovering[0],
-                            child: Container(
-                              height: 2,
-                              width: 20,
-                              color: Colors.white,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+                    AnimatedCrossFade(
+                        firstChild: AppBarButton(texto: UtilMsgEg.aboutTitle),
+                        secondChild: AppBarButton(texto: UtilMsgBr.aboutTitle),
+                        crossFadeState: widget.english ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                        duration: UtilGeneral.duTrans),
                     SizedBox(width: screenSize.width / 20),
-                    InkWell(
-                      onHover: (value) {
-                        setState(() {
-                          value
-                              ? _isHovering[1] = true
-                              : _isHovering[1] = false;
-                        });
-                      },
-                      onTap: () {},
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'Contato',
-                            style: TextStyle(
-                              color: _isHovering[1]
-                                  ? Colors.blue[200]
-                                  : Colors.white,
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Visibility(
-                            maintainAnimation: true,
-                            maintainState: true,
-                            maintainSize: true,
-                            visible: _isHovering[1],
-                            child: Container(
-                              height: 2,
-                              width: 20,
-                              color: Colors.white,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+
+                    AnimatedCrossFade(
+                        firstChild: AppBarButton(texto: UtilMsgEg.projectTitle),
+                        secondChild: AppBarButton(texto: UtilMsgBr.projectTitle),
+                        crossFadeState: widget.english ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                        duration: UtilGeneral.duTrans),
+                    SizedBox(width: screenSize.width / 20),
+                    AnimatedCrossFade(
+                        firstChild: AppBarButton(texto: UtilMsgEg.contactTitle),
+                        secondChild: AppBarButton(texto: UtilMsgBr.contactTitle),
+                        crossFadeState: widget.english ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                        duration: UtilGeneral.duTrans),
+                    SizedBox(width: screenSize.width / 20),
+                    AnimatedCrossFade(
+                        firstChild: AppBarButton(texto: UtilMsgEg.recommendationsTitle),
+                        secondChild: AppBarButton(texto: UtilMsgBr.recommendationsTitle),
+                        crossFadeState: widget.english ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                        duration: UtilGeneral.duTrans),
                   ],
                 ),
               ),
-              InkWell(
-                onHover: (value) {
-                  setState(() {
-                    value ? _isHovering[2] = true : _isHovering[2] = false;
-                  });
-                },
-                onTap: () {},
-                child: Text(
-                  '',
-                  style: TextStyle(
-                    color: _isHovering[2] ? Colors.white : Colors.white70,
-                  ),
-                ),
-              ),
+
+
               SizedBox(
                 width: screenSize.width / 50,
               ),
-              InkWell(
-                onHover: (value) {
-                  setState(() {
-                    value ? _isHovering[3] = true : _isHovering[3] = false;
-                  });
-                },
-                onTap: () {},
-                child: Text(
-                  'Login',
-                  style: TextStyle(
-                    color: _isHovering[3] ? Colors.white : Colors.white70,
-                  ),
-                ),
-              ),
+              AppBarButton(texto: 'Login')
             ],
           ),
         ),

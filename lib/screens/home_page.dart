@@ -1,14 +1,16 @@
-
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:meu_site/util/util_msg_br.dart';
+import 'package:meu_site/util/util_msg_eg.dart';
 import 'package:meu_site/widgets/bottom_bar.dart';
 import 'package:meu_site/widgets/carousel.dart';
 import 'package:meu_site/widgets/destination_heading.dart';
 import 'package:meu_site/widgets/explore_drawer.dart';
-import 'package:meu_site/widgets/featured_heading.dart';
-import 'package:meu_site/widgets/featured_tiles.dart';
+import 'package:meu_site/widgets/about_heading.dart';
+import 'package:meu_site/widgets/about_block.dart';
 import 'package:meu_site/widgets/floating_quick_access_bar.dart';
+import 'package:meu_site/widgets/header_responsive.dart';
 import 'package:meu_site/widgets/responsive.dart';
 import 'package:meu_site/widgets/top_bar_contents.dart';
 
@@ -21,6 +23,7 @@ class _HomePageState extends State<HomePage> {
   ScrollController _scrollController = new ScrollController();
   double _scrollPosition = 0;
   double _opacity = 0;
+  bool _english = true;
 
   _scrollListener() {
     setState(() {
@@ -43,7 +46,22 @@ class _HomePageState extends State<HomePage> {
         : 1;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      floatingActionButton: FloatingActionButton(
+        tooltip: _english ? UtilMsgBr.placeHoldLang : UtilMsgEg.placeHoldLang,
+        elevation: 30,
+        mini: true,
+        foregroundColor: Colors.blueGrey,
+        child: CircularProfileAvatar(_english == false ? 'assets/images/eu.png' : 'assets/images/brasil.png',
+        animateFromOldImageOnUrlChange: true,
+          foregroundColor: Colors.blueGrey,
+        ),
+        onPressed: () {
+          setState(() {
+              _english = !_english;
+          });
+        },
+      ),
+      backgroundColor: Colors.white10,
       extendBodyBehindAppBar: true,
       appBar: ResponsiveWidget.isSmallScreen(context)
           ? AppBar(
@@ -61,9 +79,9 @@ class _HomePageState extends State<HomePage> {
             )
           : PreferredSize(
               preferredSize: Size(screenSize.width, 1000),
-              child: TopBarContents(_opacity),
+              child: Opacity(opacity: _opacity, child: TopBarContents(1, _english)),
             ),
-      drawer: ExploreDrawer(),
+      drawer: ExploreDrawer(english: _english),
       body: SingleChildScrollView(
         controller: _scrollController,
         physics: ClampingScrollPhysics(),
@@ -72,87 +90,31 @@ class _HomePageState extends State<HomePage> {
             Stack(
               children: [
                 Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                   end: Alignment.bottomCenter,
-                   colors: [
-                      Colors.blueGrey,
-                    Colors.white
-                  ],
-                  )
-                ),
-                 child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center( child: CircularProfileAvatar(
-                          '',
-                          elevation: 50,
-                          backgroundColor: Colors.black,
-                          borderColor: Colors.white,
-                          borderWidth: 3,
-                          child: Image.asset('assets/images/foto.jpg',
-                            fit: BoxFit.cover,
-                          ),
-                          radius: 180,
-                        )
-
-                        ),
-                       Flexible(child: Container(
-                            height: 50,
-                            child:Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Flexible(child: Text(
-                                'ALISSON ANDRADE',
-                                style: GoogleFonts.montserrat(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w400,
-                                  letterSpacing: 3,
-                                    shadows: [
-                                      Shadow(
-                                        blurRadius: 2,
-                                        color: Colors.blueGrey,
-                                        offset: Offset(5.0, 5.0),
-                                      ),
-                                    ]
-                                ),
-                              ),),
-                              Flexible(child: Text(
-                                'DESENVOLVEDOR',
-                                style: GoogleFonts.montserrat(
-                                  color: Colors.black54,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w400,
-                                  letterSpacing: 3,
-                                  shadows: [
-                                  Shadow(
-                                    blurRadius: 2,
-                                  color: Colors.blueGrey,
-                                  offset: Offset(5.0, 5.0),
-                                ),
-                                ]
-                                ),
-                              ),)
-                            ],
-                          ),)
-                        ),
-
-                      ],
-                    ),
-
-                ),
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Colors.blueGrey, Colors.white],
+                    )),
+                    child: Opacity(
+                        opacity: 1 - _opacity,
+                        child: Container(
+                          child: ResponsiveWidget.isSmallScreen(context)
+                              ? HeaderResponsiveSmall(english: _english,)
+                              : HeaderLarge(english: _english),
+                        ))),
                 Column(
                   children: [
-                    FloatingQuickAccessBar(screenSize: screenSize),
+                    FloatingQuickAccessBar(screenSize: screenSize, english: _english),
                     Container(
                       child: Column(
                         children: [
-                          FeaturedHeading(
+                          //Divider(height: 20,),
+                          AboutHeading(
                             screenSize: screenSize,
+                            english: _english,
                           ),
-                          FeaturedTiles(screenSize: screenSize)
+                          AboutBlock(screenSize: screenSize, english: _english,)
                         ],
                       ),
                     ),
@@ -160,9 +122,10 @@ class _HomePageState extends State<HomePage> {
                 )
               ],
             ),
+
             //SizedBox(height: screenSize.height / 8),
-            DestinationHeading(screenSize: screenSize),
-            DestinationCarousel(),
+            //DestinationHeading(screenSize: screenSize),
+            //DestinationCarousel(),
             SizedBox(height: screenSize.height / 10),
             BottomBar(),
           ],

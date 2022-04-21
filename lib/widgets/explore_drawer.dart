@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:meu_site/util/util_msg_br.dart';
+import 'package:meu_site/util/util_msg_eg.dart';
 
 class ExploreDrawer extends StatelessWidget {
-  const ExploreDrawer({
+  var english = true;
+
+  ExploreDrawer({
     Key? key,
+    required this.english,
   }) : super(key: key);
 
   @override
@@ -47,7 +52,7 @@ class ExploreDrawer extends StatelessWidget {
               InkWell(
                 onTap: () {},
                 child: Text(
-                  'Sobre',
+                  english ? UtilMsgEg.aboutTitle : UtilMsgBr.aboutTitle,
                   style: TextStyle(color: Colors.white, fontSize: 22),
                 ),
               ),
@@ -61,7 +66,7 @@ class ExploreDrawer extends StatelessWidget {
               InkWell(
                 onTap: () {},
                 child: Text(
-                  'Contato',
+                  english ? UtilMsgEg.contactTitle : UtilMsgBr.contactTitle,
                   style: TextStyle(color: Colors.white, fontSize: 22),
                 ),
               ),

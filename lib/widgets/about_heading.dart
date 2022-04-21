@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:meu_site/util/util_msg_br.dart';
+import 'package:meu_site/util/util_msg_eg.dart';
 import 'package:meu_site/widgets/responsive.dart';
 
-class FeaturedHeading extends StatelessWidget {
-  const FeaturedHeading({
+class AboutHeading extends StatelessWidget {
+  AboutHeading({
     Key? key,
     required this.screenSize,
+    required this.english
   }) : super(key: key);
 
   final Size screenSize;
+  var english = true;
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +27,8 @@ class FeaturedHeading extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Row(),
                 Text(
-                  'Featured',
+                  english ? UtilMsgEg.aboutTitle : UtilMsgBr.aboutTitle,
                   style: GoogleFonts.montserrat(
                     fontSize: 30,
                     fontWeight: FontWeight.w500,
@@ -33,7 +36,7 @@ class FeaturedHeading extends StatelessWidget {
                 ),
                 SizedBox(height: 5),
                 Text(
-                  'Unique wildlife tours & destinations',
+                  '',
                   textAlign: TextAlign.end,
                 ),
                 SizedBox(height: 10),
@@ -44,7 +47,7 @@ class FeaturedHeading extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  'Featured',
+                  english ? UtilMsgEg.aboutTitle : UtilMsgBr.aboutTitle,
                   style: GoogleFonts.montserrat(
                     fontSize: 40,
                     fontWeight: FontWeight.w500,
@@ -52,7 +55,7 @@ class FeaturedHeading extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    'Unique wildlife tours & destinations',
+                    '',
                     textAlign: TextAlign.end,
                   ),
                 ),

@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:meu_site/util/util_general.dart';
+import 'package:meu_site/util/util_msg_br.dart';
+import 'package:meu_site/util/util_msg_eg.dart';
 import 'package:meu_site/widgets/responsive.dart';
 
 class FloatingQuickAccessBar extends StatefulWidget {
-  const FloatingQuickAccessBar({
+  FloatingQuickAccessBar({
     Key? key,
     required this.screenSize,
+    required this.english
   }) : super(key: key);
 
   final Size screenSize;
+   var english = true;
 
   @override
   _FloatingQuickAccessBarState createState() => _FloatingQuickAccessBarState();
@@ -17,7 +22,10 @@ class _FloatingQuickAccessBarState extends State<FloatingQuickAccessBar> {
   List _isHovering = [false, false, false, false];
   List<Widget> rowElements = [];
 
-  List<String> items = ['Sobre', 'Projetos', 'Contato', 'Github'];
+  List itemsEg = [UtilMsgEg.aboutTitle, UtilMsgEg.projectTitle, UtilMsgEg.contactTitle, UtilMsgEg.recommendationsTitle];
+
+  List itemsBr = [UtilMsgBr.aboutTitle, UtilMsgBr.projectTitle, UtilMsgBr.contactTitle, UtilMsgBr.recommendationsTitle];
+
   List<IconData> icons = [
     Icons.account_box,
     Icons.account_tree,
@@ -26,6 +34,7 @@ class _FloatingQuickAccessBarState extends State<FloatingQuickAccessBar> {
   ];
 
   List<Widget> generateRowElements() {
+    List items = widget.english ? itemsEg : itemsBr;
     rowElements.clear();
     for (int i = 0; i < items.length; i++) {
       Widget elementTile = InkWell(
@@ -37,12 +46,21 @@ class _FloatingQuickAccessBarState extends State<FloatingQuickAccessBar> {
           });
         },
         onTap: () {},
-        child: Text(
-          items[i],
-          style: TextStyle(
-            color: _isHovering[i] ? Colors.blueGrey[900] : Colors.blueGrey,
-          ),
-        ),
+        child: AnimatedCrossFade(
+            firstChild: Text(
+              items[i],
+              style: TextStyle(
+                color: _isHovering[i] ? Colors.blueGrey[900] : Colors.blueGrey,
+              ),
+            ),
+            secondChild: Text(
+              items[i],
+              style: TextStyle(
+                color: _isHovering[i] ? Colors.blueGrey[900] : Colors.blueGrey,
+              ),
+            ),
+            crossFadeState: widget.english ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+            duration: UtilGeneral.duTrans)
       );
       Widget spacer = SizedBox(
         height: widget.screenSize.height / 20,
@@ -63,6 +81,7 @@ class _FloatingQuickAccessBarState extends State<FloatingQuickAccessBar> {
 
   @override
   Widget build(BuildContext context) {
+    List items = widget.english ? itemsEg : itemsBr;
     return Center(
       heightFactor: 1,
       child: Padding(
@@ -100,11 +119,20 @@ class _FloatingQuickAccessBarState extends State<FloatingQuickAccessBar> {
                                 splashColor: Colors.transparent,
                                 hoverColor: Colors.transparent,
                                 onTap: () {},
-                                child: Text(
-                                  items[pageIndex],
-                                  style: TextStyle(
-                                      color: Colors.blueGrey, fontSize: 16),
-                                ),
+                                child: AnimatedCrossFade(
+                                  firstChild: Text(
+                                    items[pageIndex],
+                                    style: TextStyle(
+                                        color: Colors.blueGrey, fontSize: 16),
+                                  ),
+                                  secondChild: Text(
+                                    items[pageIndex],
+                                    style: TextStyle(
+                                        color: Colors.blueGrey, fontSize: 16),
+                                  ),
+                                  crossFadeState: widget.english ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                                  duration: UtilGeneral.duTrans,
+                                )
                               ),
                             ],
                           ),

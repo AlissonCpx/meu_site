@@ -1,6 +1,7 @@
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:meu_site/util/util_general.dart';
 import 'package:meu_site/util/util_msg_br.dart';
 import 'package:meu_site/util/util_msg_eg.dart';
 import 'package:meu_site/widgets/bottom_bar.dart';
@@ -105,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                         ))),
                 Column(
                   children: [
-                    FloatingQuickAccessBar(screenSize: screenSize, english: _english),
+                    FloatingQuickAccessBar(screenSize: screenSize, english: _english, scroll: _scrollController,),
                     Container(
                       child: Column(
                         children: [

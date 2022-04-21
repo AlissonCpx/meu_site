@@ -8,9 +8,11 @@ class FloatingQuickAccessBar extends StatefulWidget {
   FloatingQuickAccessBar({
     Key? key,
     required this.screenSize,
-    required this.english
+    required this.english,
+    required this.scroll
   }) : super(key: key);
 
+  final ScrollController scroll;
   final Size screenSize;
    var english = true;
 
@@ -45,7 +47,11 @@ class _FloatingQuickAccessBarState extends State<FloatingQuickAccessBar> {
             value ? _isHovering[i] = true : _isHovering[i] = false;
           });
         },
-        onTap: () {},
+        onTap: () {
+          setState(() {
+            widget.scroll.position.moveTo(300, duration: UtilGeneral.duVeloScroll);
+          });
+        },
         child: AnimatedCrossFade(
             firstChild: Text(
               items[i],
@@ -118,7 +124,11 @@ class _FloatingQuickAccessBarState extends State<FloatingQuickAccessBar> {
                               InkWell(
                                 splashColor: Colors.transparent,
                                 hoverColor: Colors.transparent,
-                                onTap: () {},
+                                onTap: () {
+                                  setState(() {
+                                    widget.scroll.position.moveTo(300, duration: UtilGeneral.duVeloScroll);
+                                  });
+                                },
                                 child: AnimatedCrossFade(
                                   firstChild: Text(
                                     items[pageIndex],

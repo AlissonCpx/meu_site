@@ -32,6 +32,9 @@ dependencies:
   google_fonts: ^2.3.1
   carousel_slider: ^4.0.0
   circular_profile_avatar: ^2.0.5
+  bloc_pattern: ^2.3.2
+  rxdart: ^0.27.3
+  dio: ^4.0.6
 
 
   # The following adds the Cupertino Icons font to your application.

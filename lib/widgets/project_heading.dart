@@ -5,8 +5,8 @@ import 'package:meu_site/util/util_msg_br.dart';
 import 'package:meu_site/util/util_msg_eg.dart';
 import 'package:meu_site/widgets/responsive.dart';
 
-class AboutHeading extends StatelessWidget {
-  AboutHeading({
+class ProjectHeading extends StatelessWidget {
+  ProjectHeading({
     Key? key,
     required this.screenSize,
     required this.english
@@ -30,14 +30,14 @@ class AboutHeading extends StatelessWidget {
               children: [
                 AnimatedCrossFade(
                     firstChild: Text(
-                      english ? UtilMsgEg.aboutTitle : UtilMsgBr.aboutTitle,
+                      UtilMsgEg.projectTitle,
                       style: GoogleFonts.montserrat(
                         fontSize: 30,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                     secondChild: Text(
-                      english ? UtilMsgEg.aboutTitle : UtilMsgBr.aboutTitle,
+                      UtilMsgBr.projectTitle,
                       style: GoogleFonts.montserrat(
                         fontSize: 30,
                         fontWeight: FontWeight.w500,
@@ -59,14 +59,14 @@ class AboutHeading extends StatelessWidget {
               children: [
                 AnimatedCrossFade(
                     firstChild: Text(
-                      english ? UtilMsgEg.aboutTitle : UtilMsgBr.aboutTitle,
+                      UtilMsgEg.projectTitle,
                       style: GoogleFonts.montserrat(
                         fontSize: 40,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                     secondChild: Text(
-                      english ? UtilMsgEg.aboutTitle : UtilMsgBr.aboutTitle,
+                      UtilMsgBr.projectTitle,
                       style: GoogleFonts.montserrat(
                         fontSize: 40,
                         fontWeight: FontWeight.w500,

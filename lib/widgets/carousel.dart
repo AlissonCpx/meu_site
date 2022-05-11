@@ -62,6 +62,7 @@ class _DestinationCarouselState extends State<DestinationCarousel> {
               enlargeCenterPage: true,
               aspectRatio: 18 / 8,
               autoPlay: true,
+              scrollDirection: Axis.vertical,
               onPageChanged: (index, reason) {
                 setState(() {
                   _current = index;

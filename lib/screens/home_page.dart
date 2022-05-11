@@ -1,6 +1,7 @@
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:meu_site/controller/rep_bloc.dart';
 import 'package:meu_site/util/util_general.dart';
 import 'package:meu_site/util/util_msg_br.dart';
 import 'package:meu_site/util/util_msg_eg.dart';
@@ -12,6 +13,8 @@ import 'package:meu_site/widgets/about_heading.dart';
 import 'package:meu_site/widgets/about_block.dart';
 import 'package:meu_site/widgets/floating_quick_access_bar.dart';
 import 'package:meu_site/widgets/header_responsive.dart';
+import 'package:meu_site/widgets/project_heading.dart';
+import 'package:meu_site/widgets/project_tile.dart';
 import 'package:meu_site/widgets/responsive.dart';
 import 'package:meu_site/widgets/top_bar_contents.dart';
 
@@ -36,6 +39,10 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
+    setState(() {
+      GetRep().getReps();
+    });
+
     super.initState();
   }
 
@@ -52,13 +59,16 @@ class _HomePageState extends State<HomePage> {
         elevation: 30,
         mini: true,
         foregroundColor: Colors.blueGrey,
-        child: CircularProfileAvatar(_english == false ? 'assets/images/eu.png' : 'assets/images/brasil.png',
-        animateFromOldImageOnUrlChange: true,
+        child: CircularProfileAvatar(
+          _english == false
+              ? 'assets/images/eu.png'
+              : 'assets/images/brasil.png',
+          animateFromOldImageOnUrlChange: true,
           foregroundColor: Colors.blueGrey,
         ),
         onPressed: () {
           setState(() {
-              _english = !_english;
+            _english = !_english;
           });
         },
       ),
@@ -80,7 +90,8 @@ class _HomePageState extends State<HomePage> {
             )
           : PreferredSize(
               preferredSize: Size(screenSize.width, 1000),
-              child: Opacity(opacity: _opacity, child: TopBarContents(1, _english)),
+              child: Opacity(
+                  opacity: _opacity, child: TopBarContents(1, _english)),
             ),
       drawer: ExploreDrawer(english: _english),
       body: SingleChildScrollView(
@@ -101,12 +112,18 @@ class _HomePageState extends State<HomePage> {
                         opacity: 1 - _opacity,
                         child: Container(
                           child: ResponsiveWidget.isSmallScreen(context)
-                              ? HeaderResponsiveSmall(english: _english,)
+                              ? HeaderResponsiveSmall(
+                                  english: _english,
+                                )
                               : HeaderLarge(english: _english),
                         ))),
                 Column(
                   children: [
-                    FloatingQuickAccessBar(screenSize: screenSize, english: _english, scroll: _scrollController,),
+                    FloatingQuickAccessBar(
+                      screenSize: screenSize,
+                      english: _english,
+                      scroll: _scrollController,
+                    ),
                     Container(
                       child: Column(
                         children: [
@@ -115,7 +132,16 @@ class _HomePageState extends State<HomePage> {
                             screenSize: screenSize,
                             english: _english,
                           ),
-                          AboutBlock(screenSize: screenSize, english: _english,)
+                          AboutBlock(
+                            screenSize: screenSize,
+                            english: _english,
+                          ),
+
+                          ProjectHeading(
+                              screenSize: screenSize, english: _english),
+
+                          ProjectTile(
+                              screenSize: screenSize, english: _english),
                         ],
                       ),
                     ),

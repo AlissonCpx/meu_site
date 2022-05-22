@@ -9,4 +9,6 @@ class UtilMsgBr {
   static const recommendationsTitle = 'Recomendações';
   static const placeHoldLang = 'Traduz para português';
   static const helloMsg = 'Oi!';
+  static const viewProject = 'Ver projeto';
+  static const lastUpdate = 'Última atualização:';
 }

@@ -35,6 +35,8 @@ dependencies:
   bloc_pattern: ^2.3.2
   rxdart: ^0.27.3
   dio: ^4.0.6
+  date_format: ^2.0.6
+  url_launcher: ^6.1.2
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -9,4 +9,6 @@ class UtilMsgEg {
   static const recommendationsTitle = 'Recommendations';
   static const placeHoldLang = 'Translate to English';
   static const helloMsg = 'Hi!';
+  static const viewProject = 'View project';
+  static const lastUpdate = 'Last update:';
 }

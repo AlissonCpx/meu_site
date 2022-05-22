@@ -1,15 +1,24 @@
 class RepositoryModel {
-  final String name;
-  final String url;
-  final String avatarUrl;
+  var name;
+  var url;
+  var avatarUrl;
+  var createdAt;
+  var updatedAt;
+  var pushedAt;
+  var description;
 
-  RepositoryModel(
-      {required this.name, required this.url, required this.avatarUrl});
+  RepositoryModel({ required this.createdAt, required this.updatedAt, required this.pushedAt, required this.description,
+      required this.name, required this.url, required this.avatarUrl});
 
   factory RepositoryModel.fromJson(Map<String, dynamic> json) {
     return RepositoryModel(
-        name: json['name'] as String,
-        url: json['html_url'] as String,
-        avatarUrl: json['svn_url'] as String);
+        name: json['name'],
+        url: json['html_url'],
+        avatarUrl: json['svn_url'],
+        createdAt: json['created_at'],
+        updatedAt: json['updated_at'],
+        pushedAt: json['pushed_at'],
+        description: json['description'],
+    );
   }
 }

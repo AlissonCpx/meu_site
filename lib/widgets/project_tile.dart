@@ -99,8 +99,12 @@ class _ProjectTileState extends State<ProjectTile> {
                     },
                   ),
                 )),
-            Divider(),
-            Expanded(
+            Padding(
+              padding: EdgeInsets.only(left: 15, right: 15),
+              child: Divider(),
+            ),
+
+            Expanded( //aquiii
               flex: 1,
               child: Container(
                 child: UtilGeneral().animatedCha(

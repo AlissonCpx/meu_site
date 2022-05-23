@@ -49,7 +49,11 @@ class _FloatingQuickAccessBarState extends State<FloatingQuickAccessBar> {
         },
         onTap: () {
           setState(() {
-            widget.scroll.position.moveTo(300, duration: UtilGeneral.duVeloScroll);
+            if (i == 0) {
+              widget.scroll.position.moveTo(300, duration: UtilGeneral.duVeloScroll);
+            } else if (i == 1) {
+              widget.scroll.position.moveTo(600, duration: UtilGeneral.duVeloScroll);
+            }
           });
         },
         child: AnimatedCrossFade(
@@ -126,7 +130,11 @@ class _FloatingQuickAccessBarState extends State<FloatingQuickAccessBar> {
                                 hoverColor: Colors.transparent,
                                 onTap: () {
                                   setState(() {
-                                    widget.scroll.position.moveTo(300, duration: UtilGeneral.duVeloScroll);
+                                    if (pageIndex == 0) {
+                                      widget.scroll.position.moveTo(UtilGeneral.sessionAbout, duration: UtilGeneral.duVeloScroll);
+                                    } else if (pageIndex == 1) {
+                                      widget.scroll.position.moveTo(UtilGeneral.sessionProject, duration: UtilGeneral.duVeloScroll);
+                                    }
                                   });
                                 },
                                 child: AnimatedCrossFade(

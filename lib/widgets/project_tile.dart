@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:meu_site/controller/rep_bloc.dart';
+import 'package:meu_site/controller/user_bloc.dart';
 import 'package:meu_site/models/repository_list.dart';
 import 'package:meu_site/models/repository_model.dart';
+import 'package:meu_site/models/user_model.dart';
 import 'package:meu_site/util/util_general.dart';
 import 'package:meu_site/util/util_msg_br.dart';
 import 'package:meu_site/util/util_msg_eg.dart';
 import 'package:meu_site/widgets/responsive.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:convert';
 
 class ProjectTile extends StatefulWidget {
   final Size screenSize;
@@ -21,6 +24,10 @@ class ProjectTile extends StatefulWidget {
 
 class _ProjectTileState extends State<ProjectTile> {
   final _repController = GetRep();
+  final _userController = GetUser();
+
+  final JsonDecoder decoder = JsonDecoder();
+  final JsonEncoder encoder = JsonEncoder();
 
   @override
   void initState() {
@@ -95,7 +102,8 @@ class _ProjectTileState extends State<ProjectTile> {
                         UtilMsgBr.viewProject, widget.english, TextStyle()),
                     onPressed: () async {
                       final Uri _url = Uri.parse(rep.url);
-                      if (!await launchUrl(_url)) throw 'Could not launch ${_url}';
+                      if (!await launchUrl(_url))
+                        throw 'Could not launch ${_url}';
                     },
                   ),
                 )),
@@ -103,8 +111,8 @@ class _ProjectTileState extends State<ProjectTile> {
               padding: EdgeInsets.only(left: 15, right: 15),
               child: Divider(),
             ),
-
-            Expanded( //aquiii
+            Expanded(
+              //aquiii
               flex: 1,
               child: Container(
                 child: UtilGeneral().animatedCha(
@@ -133,18 +141,81 @@ class _ProjectTileState extends State<ProjectTile> {
                 child: Column(
                   children: [
                     StreamBuilder(
+                        initialData: _userController.getUser(),
+                        stream: _userController.out,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) {
+                            return CircularProgressIndicator();
+                          } else if (snapshot.hasData) {
+                            UserModel user = UserModel.fromJson(decoder
+                                .convert(encoder.convert(snapshot.data)));
+                            return Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  color: Colors.blueGrey[900],
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(15),
+                                      bottomRight: Radius.circular(15))),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Flexible(
+                                    child: CircleAvatar(
+                                      backgroundImage:
+                                          NetworkImage(user.avatarUrl),
+                                    ),
+                                    flex: 1,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(5),
+                                    child: Flexible(
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 6),
+                                            child: Text(
+                                              "${user.login}",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  letterSpacing: 3),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(1),
+                                            child: Text(
+                                              "Total Repositorios: ${user.public_repos}",
+                                              style: TextStyle(fontSize: 10),
+                                            ),
+                                          )
+                                        ],
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                      ),
+                                      flex: 1,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        }),
+                    StreamBuilder(
                         initialData: _repController.getReps(),
                         stream: _repController.out,
                         builder: (context, snapshot) {
                           RepositoryList _repList =
                               RepositoryList.fromJson(snapshot.data);
-                          _repList.repList;
                           if (snapshot.hasError) {
                             return LinearProgressIndicator();
                           } else if (snapshot.hasData) {
                             return Container(
                                 height: 300,
                                 child: Scrollbar(
+                                  interactive: true,
                                   child: ListView.builder(
                                       scrollDirection: Axis.horizontal,
                                       shrinkWrap: true,

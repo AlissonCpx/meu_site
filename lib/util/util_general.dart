@@ -4,7 +4,8 @@ import 'package:flutter/cupertino.dart';
 class UtilGeneral {
   static Duration duTrans = Duration(milliseconds: 800);
   static Duration duVeloScroll = Duration(seconds: 1);
-  static var sessionAbout = 300;
+  static double sessionAbout = 300;
+  static double sessionProject = 700;
 
   Widget animatedCha(String text1, text2, bool english, TextStyle style) {
     return AnimatedCrossFade(

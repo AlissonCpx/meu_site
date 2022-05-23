@@ -1,7 +1,7 @@
 import 'package:meu_site/service/service_api.dart';
 import 'package:rxdart/rxdart.dart';
 
-class GetRep {
+class GetUser {
   final ServiceApi _service = ServiceApi();
   final _controller = BehaviorSubject();
 
@@ -9,8 +9,8 @@ class GetRep {
 
   Sink get input => _controller.sink;
 
-  getReps() async {
-    await _service.getReq().then(input.add);
+  getUser() async {
+    await _service.getUser().then(input.add);
   }
 
   void dispose() {

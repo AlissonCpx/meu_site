@@ -112,13 +112,19 @@ class _HomePageState extends State<HomePage> {
                         opacity: 1 - _opacity,
                         child: Container(
                           child: ResponsiveWidget.isSmallScreen(context)
-                              ? HeaderResponsiveSmall(
-                                  english: _english,
-                                )
+                              ?
+                          Padding(padding: EdgeInsets.only(bottom: 30),
+                          child:  HeaderResponsiveSmall(
+                            english: _english,
+                          ),
+                          )
                               : HeaderLarge(english: _english),
                         ))),
                 Column(
                   children: [
+                    SizedBox(
+                      height: 30,
+                    ),
                     FloatingQuickAccessBar(
                       screenSize: screenSize,
                       english: _english,

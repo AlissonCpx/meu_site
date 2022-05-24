@@ -12,7 +12,6 @@ class ServiceApi {
 
   Future getUser() async {
     Response user = await dio.get('https://api.github.com/users/AlissonCpx');
-    print(user.data);
     return user.data;
   }
 }

@@ -11,4 +11,6 @@ class UtilMsgBr {
   static const helloMsg = 'Oi!';
   static const viewProject = 'Ver projeto';
   static const lastUpdate = 'Última atualização:';
+  static const totalRepositories = 'Total repositórios:';
+
 }

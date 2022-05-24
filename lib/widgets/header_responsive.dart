@@ -58,7 +58,8 @@ class HeaderResponsiveSmall extends StatelessWidget {
               ]
           ),
         ),),
-        Flexible(child: AnimatedCrossFade(
+        Padding(padding: EdgeInsets.only(bottom: 20),
+        child:  Flexible(child: AnimatedCrossFade(
             firstChild:  Text(
               english ? UtilMsgEg.subTitle : UtilMsgBr.subTitle,
               style: GoogleFonts.montserrat(
@@ -93,6 +94,8 @@ class HeaderResponsiveSmall extends StatelessWidget {
             ),
             crossFadeState: english ? CrossFadeState.showFirst : CrossFadeState.showSecond,
             duration: UtilGeneral.duTrans)),
+        ),
+
       ],
     ));
   }

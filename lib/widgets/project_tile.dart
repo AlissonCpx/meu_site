@@ -25,6 +25,8 @@ class ProjectTile extends StatefulWidget {
 class _ProjectTileState extends State<ProjectTile> {
   final _repController = GetRep();
   final _userController = GetUser();
+  UserModel _userModel =
+      new UserModel(login: "", html_url: "", avatarUrl: "", public_repos: "");
 
   final JsonDecoder decoder = JsonDecoder();
   final JsonEncoder encoder = JsonEncoder();
@@ -34,11 +36,16 @@ class _ProjectTileState extends State<ProjectTile> {
     super.initState();
   }
 
+  void updateUser(UserModel user) {
+    _userModel = user;
+  }
+
   Widget cardProjects(RepositoryModel rep) {
     return Container(
-      height: 50,
+      height: 20,
       width: 300,
       child: Card(
+        elevation: 50,
         child: Column(
           children: [
             Container(
@@ -137,7 +144,8 @@ class _ProjectTileState extends State<ProjectTile> {
             child: Container(
               margin: EdgeInsets.all(10),
               child: Card(
-                elevation: 20,
+                elevation: 30,
+                surfaceTintColor: Colors.red,
                 child: Column(
                   children: [
                     StreamBuilder(
@@ -149,6 +157,7 @@ class _ProjectTileState extends State<ProjectTile> {
                           } else if (snapshot.hasData) {
                             UserModel user = UserModel.fromJson(decoder
                                 .convert(encoder.convert(snapshot.data)));
+                            updateUser(user);
                             return Container(
                               height: 50,
                               decoration: BoxDecoration(
@@ -170,32 +179,24 @@ class _ProjectTileState extends State<ProjectTile> {
                                   Padding(
                                     padding: EdgeInsets.all(5),
                                     child: Flexible(
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.only(top: 6),
-                                            child: Text(
-                                              "${user.login}",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  letterSpacing: 3),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.all(1),
-                                            child: Text(
-                                              "Total Repositorios: ${user.public_repos}",
-                                              style: TextStyle(fontSize: 10),
-                                            ),
-                                          )
-                                        ],
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                      child: InkWell(
+                                        child: Text(
+                                          "${user.login}",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              letterSpacing: 3),
+                                        ),
+                                        onTap: () async {
+                                          final Uri _url =
+                                              Uri.parse(user.html_url);
+                                          if (!await launchUrl(_url))
+                                            throw 'Could not launch ${_url}';
+                                        },
                                       ),
                                       flex: 1,
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             );
@@ -217,6 +218,7 @@ class _ProjectTileState extends State<ProjectTile> {
                                 child: Scrollbar(
                                   interactive: true,
                                   child: ListView.builder(
+                                      physics: AlwaysScrollableScrollPhysics(),
                                       scrollDirection: Axis.horizontal,
                                       shrinkWrap: true,
                                       itemCount: _repList.repList.length,
@@ -228,7 +230,23 @@ class _ProjectTileState extends State<ProjectTile> {
                           } else {
                             return CircularProgressIndicator();
                           }
-                        })
+                        }),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: UtilGeneral().animatedCha(
+                              "${UtilMsgEg.totalRepositories} ${_userModel.public_repos}",
+                              "${UtilMsgBr.totalRepositories} ${_userModel.public_repos}",
+                              widget.english,
+                              TextStyle(
+                                color: Colors.grey,
+                                fontSize: 10,
+                              )),
+                        )
+                      ],
+                    )
                   ],
                 ),
               ),

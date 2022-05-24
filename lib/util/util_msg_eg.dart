@@ -11,4 +11,6 @@ class UtilMsgEg {
   static const helloMsg = 'Hi!';
   static const viewProject = 'View project';
   static const lastUpdate = 'Last update:';
+  static const totalRepositories = 'Total repositories:';
+
 }

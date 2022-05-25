@@ -28,12 +28,15 @@ class _ProjectTileState extends State<ProjectTile> {
   UserModel _userModel =
       new UserModel(login: "", html_url: "", avatarUrl: "", public_repos: "");
 
+  ScrollController _scrollController = new ScrollController();
+
   final JsonDecoder decoder = JsonDecoder();
   final JsonEncoder encoder = JsonEncoder();
 
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
   }
 
   void updateUser(UserModel user) {
@@ -49,7 +52,7 @@ class _ProjectTileState extends State<ProjectTile> {
         child: Column(
           children: [
             Container(
-              height: 40,
+              height: 30,
               decoration: BoxDecoration(
                 color: Colors.blueGrey[900],
                 borderRadius:
@@ -260,7 +263,140 @@ class _ProjectTileState extends State<ProjectTile> {
             child: Container(
               child: Card(
                 child: Column(
-                  children: [],
+                  children: [
+                    Padding(
+                        padding:
+                            EdgeInsets.only(top: widget.screenSize.height / 50),
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: Card(
+                            elevation: 30,
+                            surfaceTintColor: Colors.red,
+                            child: Column(
+                              children: [
+                                StreamBuilder(
+                                    initialData: _userController.getUser(),
+                                    stream: _userController.out,
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasError) {
+                                        return CircularProgressIndicator();
+                                      } else if (snapshot.hasData) {
+                                        UserModel user = UserModel.fromJson(
+                                            decoder.convert(encoder
+                                                .convert(snapshot.data)));
+                                        updateUser(user);
+                                        return Container(
+                                          height: 50,
+                                          decoration: BoxDecoration(
+                                              color: Colors.blueGrey[900],
+                                              borderRadius: BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(15),
+                                                  bottomRight:
+                                                      Radius.circular(15))),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Flexible(
+                                                child: CircleAvatar(
+                                                  backgroundImage: NetworkImage(
+                                                      user.avatarUrl),
+                                                ),
+                                                flex: 1,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.all(5),
+                                                child: Flexible(
+                                                  child: InkWell(
+                                                    child: Text(
+                                                      "${user.login}",
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          letterSpacing: 3),
+                                                    ),
+                                                    onTap: () async {
+                                                      final Uri _url =
+                                                          Uri.parse(
+                                                              user.html_url);
+                                                      if (!await launchUrl(
+                                                          _url))
+                                                        throw 'Could not launch ${_url}';
+                                                    },
+                                                  ),
+                                                  flex: 1,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      } else {
+                                        return CircularProgressIndicator();
+                                      }
+                                    }),
+                                StreamBuilder(
+                                    initialData: _repController.getReps(),
+                                    stream: _repController.out,
+                                    builder: (context, snapshot) {
+                                      RepositoryList _repList =
+                                          RepositoryList.fromJson(
+                                              snapshot.data);
+                                      if (snapshot.hasError) {
+                                        return LinearProgressIndicator();
+                                      } else if (snapshot.hasData) {
+                                        return Container(
+                                            height: 500,
+                                            child: Scrollbar(
+                                              controller: _scrollController,
+                                              interactive: true,
+                                              child: GridView.builder(
+                                                  gridDelegate:
+                                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                                          crossAxisCount: 2,
+                                                          crossAxisSpacing:
+                                                              10.0,
+                                                          mainAxisSpacing:
+                                                              10.0),
+                                                  physics: ScrollPhysics(),
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  shrinkWrap: true,
+                                                  itemCount:
+                                                      _repList.repList.length,
+                                                  itemBuilder: (context, i) {
+                                                    return cardProjects(
+                                                        _repList.repList[i]);
+                                                  }),
+                                            ));
+                                      } else {
+                                        return CircularProgressIndicator();
+                                      }
+                                    }),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: UtilGeneral().animatedCha(
+                                          "${UtilMsgEg.totalRepositories} ${_userModel.public_repos}",
+                                          "${UtilMsgBr.totalRepositories} ${_userModel.public_repos}",
+                                          widget.english,
+                                          TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 10,
+                                          )),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ))
+                  ],
                 ),
               ),
             ));
